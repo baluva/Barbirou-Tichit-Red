@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (p *perso) takeapot() {
+func (p *Perso) takeapot() {
 	var potionIdx = -1
 	for i, item := range p.inv {
 		if item == "Potion de vie" {
@@ -23,11 +23,11 @@ func (p *perso) takeapot() {
 	fmt.Println("Vous avez utilisé une Potion de vie.")
 	fmt.Printf("Nouveaux points de vie actuels : %d / %d\n", p.pv, p.pvMAX)
 }
-func (p *perso) acheterItem(item string) {
+func (p *Perso) acheterItem(item string) {
 	p.inv = append(p.inv, item)
 	fmt.Printf("%s a acheté : %s\n", p.nom, item)
 }
-func Dead(p *perso) {
+func Dead(p *Perso) {
 	if p.pv <= 0 {
 		fmt.Printf("%s est mort !\n", p.nom)
 		// Resurrection avec 50% de points de vie maximum
@@ -35,7 +35,7 @@ func Dead(p *perso) {
 		fmt.Printf("%s est ressuscité avec %.2f points de vie\n", p.nom, p.pv)
 	}
 }
-func poisonPot(p *perso) {
+func poisonPot(p *Perso) {
 	fmt.Printf("une Potion de poison \n")
 	// Infliger des dégâts pendant 3 secondes
 	for i := 0; i < 3; i++ {
@@ -46,12 +46,8 @@ func poisonPot(p *perso) {
 
 	fmt.Printf("L'effet du poison a disparu.\n")
 }
-func (p *perso) addinv(item string) {
-	p.inv = append(p.inv, item)
-	fmt.Printf("%s a acheté : %s\n", p.nom, item)
-}
 
-func removeInventory(p *perso, item string) {
+func removeInventory(p *Perso, item string) {
 	for i, invItem := range p.inv {
 		if invItem == item {
 			p.inv = append(p.inv[:i], p.inv[i+1:]...)
@@ -59,4 +55,10 @@ func removeInventory(p *perso, item string) {
 			return
 		}
 	}
+}
+
+func (p *Perso) Addinv(item string) {
+	p.inv = append(p.inv, item)
+	fmt.Printf("%s a acheté : %s\n", p.nom, item)
+	fmt.Println(p.inv)
 }

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-type perso struct {
+type Perso struct {
 	nom    string
 	classe string
 	grade  int
@@ -20,7 +20,7 @@ type Item struct {
 	Quantity int
 }
 
-func (p *perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
@@ -30,8 +30,8 @@ func (p *perso) Init(nom string, classe string, grade int, pvMAX float64, pv flo
 
 }
 
-var p1 perso
-var p2 perso
+var p1 Perso
+var p2 Perso
 
 func main() {
 
@@ -58,6 +58,7 @@ func Menu() {
 	case "1":
 
 		p1.displayInfoTERO()
+
 	case "2":
 		p2.displayInfoLAT()
 	case "3":
@@ -67,20 +68,20 @@ func Menu() {
 	case "4":
 		fmt.Println("💂💂INVENTAIRE:💂‍♀️💂‍♀️")
 		fmt.Println("👮🏻👮🏻")
+		p2.accessInventory()
 
 	case "5":
 		fmt.Println("🛒💰SHOP TIMEE !!💰🛒")
-		p2.displaymarchand()
+		p1.displaymarchand()
 
 	case "6":
 		fmt.Println("GOOD BYE!!🖖🖖🖖")
 	default:
-		fmt.Println("Option invalide")
+		fmt.Println("")
 	}
 }
 
-func (p perso) displayInfoLAT() {
-	fmt.Println("/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿💥")
+func (p Perso) displayInfoLAT() {
 	fmt.Println("------👮🚨🚓🚨👮--------LUTE ANTI TERRORISTE--------👮🚨🚓🚨👮--------")
 	fmt.Println("Nom :", p.nom)
 	fmt.Println("classe :", p.classe)
@@ -88,7 +89,7 @@ func (p perso) displayInfoLAT() {
 	fmt.Println("Points de vie actuels :", p.pv)
 	fmt.Println("Points de vie maximum :", p.pvMAX)
 	fmt.Println("inventaire :", p.inv, "potions")
-	fmt.Println("/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿💥")
+	fmt.Println("")
 	var choix string
 	fmt.Println("🔙0. Retour au menu précédent🔙")
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
@@ -100,12 +101,12 @@ func (p perso) displayInfoLAT() {
 	}
 
 }
-func (p perso) displaymarchand() {
+func (p *Perso) displaymarchand() {
 	fmt.Println("Bienvenue chez le marchand !:")
 	fmt.Println("voici la liste des ")
 	fmt.Println("1. Potion de vie (gratuitement)")
-	fmt.Print("2. Grenade")
-	fmt.Print("3 . couteau")
+	fmt.Println("2. Grenade")
+	fmt.Println("3 . couteau")
 	fmt.Println("0. Quitter")
 
 	var choix int
@@ -114,12 +115,14 @@ func (p perso) displaymarchand() {
 
 	switch choix {
 	case 1:
-		p.addinv("Potion de vie")
+		p.Addinv("Potion de vie")
 		fmt.Println("Vous avez acheté une Potion de vie.")
+		Menu()
 	case 2:
-		p.addinv("Grenade")
+		p.Addinv("Grenade")
+		Menu()
 	case 3:
-		p.addinv("Couteau")
+		p.Addinv("Couteau")
 	case 0:
 		Menu()
 	default:
@@ -127,8 +130,7 @@ func (p perso) displaymarchand() {
 	}
 }
 
-func (p *perso) displayInfoTERO() {
-	fmt.Println("   ╾━╤デ╦︻(•⤙•)  ")
+func (p *Perso) displayInfoTERO() {
 	fmt.Println("☠-----▄︻デ══━一💥----👳🏽‍♂️-----TERORISTE-----▄︻デ══━一💥-----👳🏽‍♂️------☠")
 	fmt.Println("Nom :", p.nom)
 	fmt.Println("classe :", p.classe)
@@ -136,7 +138,7 @@ func (p *perso) displayInfoTERO() {
 	fmt.Println("Points de vie actuels :", p.pv)
 	fmt.Println("Points de vie maximum :", p.pvMAX)
 	fmt.Println("inventaire :", p.inv, "potions")
-	fmt.Println("   ╾━╤デ╦︻(•⤙•)  ")
+	fmt.Println("")
 	var choix string
 	fmt.Println("🔙0. Retour au menu précédent🔙")
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
@@ -148,8 +150,8 @@ func (p *perso) displayInfoTERO() {
 	}
 
 }
-func (p *perso) accessInventory() {
-	fmt.Println("Inventaire du personnage :")
+func (p *Perso) accessInventory() {
+	fmt.Println("Inventaire du Personnage :")
 	for i, item := range p.inv {
 		fmt.Printf("%d. %s\n", i+1, item)
 	}
