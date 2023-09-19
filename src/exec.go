@@ -46,7 +46,7 @@ func poisonPot(p *perso) {
 
 	fmt.Printf("L'effet du poison a disparu.\n")
 }
-func addInventory(p *perso, item string) {
+func (p *perso) addinv(item string) {
 	p.inv = append(p.inv, item)
 	fmt.Printf("%s a acheté : %s\n", p.nom, item)
 }

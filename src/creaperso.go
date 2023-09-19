@@ -40,11 +40,6 @@ func main() {
 	Menu()
 }
 func Menu() {
-	fmt.Println("						█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
-										█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
-										█░░║║║╠─║─║─║║║║║╠─░░█
-										█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
-										█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")	
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	fmt.Println("     ")
 	fmt.Println("➡️Menu:")
@@ -75,6 +70,7 @@ func Menu() {
 
 	case "5":
 		fmt.Println("🛒💰SHOP TIMEE !!💰🛒")
+		p2.displaymarchand()
 
 	case "6":
 		fmt.Println("GOOD BYE!!🖖🖖🖖")
@@ -104,6 +100,33 @@ func (p perso) displayInfoLAT() {
 	}
 
 }
+func (p perso) displaymarchand() {
+	fmt.Println("Bienvenue chez le marchand !:")
+	fmt.Println("voici la liste des ")
+	fmt.Println("1. Potion de vie (gratuitement)")
+	fmt.Print("2. Grenade")
+	fmt.Print("3 . couteau")
+	fmt.Println("0. Quitter")
+
+	var choix int
+	fmt.Print("Choisissez un item à acheter : ")
+	fmt.Scan(&choix)
+
+	switch choix {
+	case 1:
+		p.addinv("Potion de vie")
+		fmt.Println("Vous avez acheté une Potion de vie.")
+	case 2:
+		p.addinv("Grenade")
+	case 3:
+		p.addinv("Couteau")
+	case 0:
+		Menu()
+	default:
+		fmt.Println("Choix invalide.")
+	}
+}
+
 func (p *perso) displayInfoTERO() {
 	fmt.Println("   ╾━╤デ╦︻(•⤙•)  ")
 	fmt.Println("☠-----▄︻デ══━一💥----👳🏽‍♂️-----TERORISTE-----▄︻デ══━一💥-----👳🏽‍♂️------☠")
