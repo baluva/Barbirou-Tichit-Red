@@ -13,6 +13,7 @@ type Perso struct {
 	pvMAX  float64
 	pv     float64
 	inv    []string
+	po 	   int
 }
 type Item struct {
 	Name     string
@@ -20,14 +21,14 @@ type Item struct {
 	Quantity int
 }
 
-func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string, po int) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
 	p.pv = pv
 	p.pvMAX = pvMAX
 	p.inv = inv
-
+	p.po = po
 }
 
 var p1 Perso
@@ -35,8 +36,8 @@ var p2 Perso
 
 func main() {
 
-	p1.Init("AHMAD ABOUSAMRA", "Teroriste", 1, 100, 70, []string{"AK47", "Armure légère", "Potion de vie"})
-	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, []string{"M4", "Armure légère", "Potion de vie"})
+	p1.Init("AHMAD ABOUSAMRA", "Teroriste", 1, 100, 70, []string{"AK47", "Armure légère", "Potion de vie"}, 100)
+	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, []string{"M4", "Armure légère", "Potion de vie"}, 100)
 	Menu()
 }
 func Menu() {
@@ -104,7 +105,7 @@ func (p Perso) displayInfoLAT() {
 func (p *Perso) displaymarchand() {
 	fmt.Println("Bienvenue chez le marchand !:")
 	fmt.Println("voici la liste des ")
-	fmt.Println("1. Potion de vie (gratuitement)")
+	fmt.Println("1. Potion de vie ")
 	fmt.Println("2. Grenade")
 	fmt.Println("3 . couteau")
 	fmt.Println("0. Quitter")
@@ -117,6 +118,7 @@ func (p *Perso) displaymarchand() {
 	case 1:
 		p.Addinv("Potion de vie")
 		fmt.Println("Vous avez acheté une Potion de vie.")
+		p.po =p.po-3
 		Menu()
 	case 2:
 		p.Addinv("Grenade")
