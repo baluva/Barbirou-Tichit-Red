@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+//Hello
+
 type Perso struct {
 	nom    string
 	classe string
