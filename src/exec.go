@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -61,4 +62,27 @@ func (p *Perso) Addinv(item string) {
 	p.inv = append(p.inv, item)
 	fmt.Printf("%s a acheté : %s\n", p.nom, item)
 	fmt.Println(p.inv)
+}
+func (p *Perso) Spellbook() {
+	if p.skill == "Rage" {
+		fmt.Println("You already have rage ")
+	}
+	p.skill = ("Rage")
+
+}
+func ValideNom(nom string) bool {
+	for _, char := range nom {
+		if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+			return false
+		}
+	}
+	return true
+}
+
+func formatNom(nom string) string {
+	return strings.Title(strings.ToLower(nom))
+}
+
+func estValideClasse(classe string) bool {
+	return classe == "LAT" || classe == "Teroriste"
 }

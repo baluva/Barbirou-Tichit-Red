@@ -13,7 +13,8 @@ type Perso struct {
 	pvMAX  float64
 	pv     float64
 	inv    []string
-	po 	   int
+	po     int
+	skill  string
 }
 type Item struct {
 	Name     string
@@ -21,7 +22,7 @@ type Item struct {
 	Quantity int
 }
 
-func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string, po int) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string, po int, skill string) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
@@ -29,6 +30,7 @@ func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv flo
 	p.pvMAX = pvMAX
 	p.inv = inv
 	p.po = po
+	p.skill = skill
 }
 
 var p1 Perso
@@ -36,49 +38,61 @@ var p2 Perso
 
 func main() {
 
-	p1.Init("AHMAD ABOUSAMRA", "Teroriste", 1, 100, 70, []string{"AK47", "Armure légère", "Potion de vie"}, 100)
-	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, []string{"M4", "Armure légère", "Potion de vie"}, 100)
+	personnage := charCreation()
+	fmt.Println("Personnage créé avec succès ! Voici ses détails :")
+	fmt.Printf("Nom : %s\n", personnage.nom)
+	fmt.Printf("Classe : %s\n", personnage.classe)
+	fmt.Printf("Grade : %d\n", personnage.grade)
+	fmt.Printf("Points de vie max : %.2f\n", personnage.pvMAX)
+	fmt.Printf("Points de vie actuels : %.2f\n", personnage.pv)
+	fmt.Printf("Inventaire : %v\n", personnage.inv)
+	fmt.Printf("Pièces d'or : %d\n", personnage.po)
+	fmt.Printf("Compétence : %s\n", personnage.skill)
+	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, []string{"M4", "Armure légère", "Potion de vie"}, 100, "")
 	Menu()
 }
 func Menu() {
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	fmt.Println("     ")
-	fmt.Println("➡️Menu:")
-	fmt.Println("	👺1.Afficher les informations des TERORISTE👺")
-	fmt.Println("	👮🏻2.Afficher les informations des LAT (👮🏻)")
-	fmt.Println("	🗃️3. Accéder au contenu de l'inventaire DES TERORISTE👺🗃️")
-	fmt.Println("	🗃️4. Accéder au contenu de l'inventaire DES des LAT (👮🏻)🗃️")
-	fmt.Println("	💰5. Marchand💰")
-	fmt.Println("	🔴6. Quitter🔴")
+	fmt.Println("➡️Menu: ")
+	fmt.Println("	👺1.Afficher les informations des TERORISTE👺 ")
+	fmt.Println("	👮🏻2.Afficher les informations des LAT (👮🏻) ")
+	fmt.Println("	🗃️3. Accéder au contenu de l'inventaire DES TERORISTE👺🗃️ ")
+	fmt.Println("	🗃️4. Accéder au contenu de l'inventaire DES des LAT (👮🏻)🗃️ ")
+	fmt.Println("	💰5. Marchand💰 ")
+	fmt.Println("	🔴6. Quitter🔴 ")
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
-	fmt.Print("choisissez une option")
-	scanner.Scan()          // lancement du scanner
-	choix := scanner.Text() // stockage du résultat du scanner dans une variable
-	switch choix {
-	case "1":
+	var choix string
+	for choix != "1" || choix != "2" || choix != "3" || choix != "4" || choix != "5" || choix != "6" {
+		fmt.Print("choisissez une option ")
+		scanner.Scan()          // lancement du scanner
+		choix := scanner.Text() // stockage du résultat du scanner dans une variable
+		switch choix {
+		case "1":
 
-		p1.displayInfoTERO()
+			p1.displayInfoTERO()
 
-	case "2":
-		p2.displayInfoLAT()
-	case "3":
-		fmt.Println("💂💂INVENTAIRE:💂‍♀️💂‍♀️")
-		fmt.Println("👺👺")
-		p1.accessInventory()
-	case "4":
-		fmt.Println("💂💂INVENTAIRE:💂‍♀️💂‍♀️")
-		fmt.Println("👮🏻👮🏻")
-		p2.accessInventory()
+		case "2":
+			p2.displayInfoLAT()
+		case "3":
+			fmt.Println("💂💂INVENTAIRE:💂‍♀️💂‍♀️")
+			fmt.Println("👺👺")
+			p1.accessInventory()
+		case "4":
+			fmt.Println("💂💂INVENTAIRE:💂‍♀️💂‍♀️")
+			fmt.Println("👮🏻👮🏻")
+			p2.accessInventory()
 
-	case "5":
-		fmt.Println("🛒💰SHOP TIMEE !!💰🛒")
-		p1.displaymarchand()
+		case "5":
+			fmt.Println("🛒💰SHOP TIMEE !!💰🛒")
+			p1.displaymarchand()
 
-	case "6":
-		fmt.Println("GOOD BYE!!🖖🖖🖖")
-	default:
-		fmt.Println("")
+		case "6":
+			fmt.Println("GOOD BYE!!🖖🖖🖖")
+		default:
+			fmt.Println("")
+		}
 	}
 }
 
@@ -108,6 +122,7 @@ func (p *Perso) displaymarchand() {
 	fmt.Println("1. Potion de vie ")
 	fmt.Println("2. Grenade")
 	fmt.Println("3 . couteau")
+	fmt.Println("3 . livre de sort : Rage")
 	fmt.Println("0. Quitter")
 
 	var choix int
@@ -118,13 +133,15 @@ func (p *Perso) displaymarchand() {
 	case 1:
 		p.Addinv("Potion de vie")
 		fmt.Println("Vous avez acheté une Potion de vie.")
-		p.po =p.po-3
+		p.po = p.po - 3
 		Menu()
 	case 2:
 		p.Addinv("Grenade")
 		Menu()
 	case 3:
 		p.Addinv("Couteau")
+	case 4:
+		p.Spellbook()
 	case 0:
 		Menu()
 	default:
@@ -134,7 +151,7 @@ func (p *Perso) displaymarchand() {
 
 func (p *Perso) displayInfoTERO() {
 	fmt.Println("☠-----▄︻デ══━一💥----👳🏽‍♂️-----TERORISTE-----▄︻デ══━一💥-----👳🏽‍♂️------☠")
-	fmt.Println("Nom :", p.nom)
+	fmt.Println("Nom : ", p.nom)
 	fmt.Println("classe :", p.classe)
 	fmt.Println("Grade:", p.grade)
 	fmt.Println("Points de vie actuels :", p.pv)
@@ -165,5 +182,63 @@ func (p *Perso) accessInventory() {
 	choix = scanner.Text() // stockage du résultat du scanner dans une variable
 	if choix == "0" {
 		Menu()
+	}
+}
+func charCreation() *Perso {
+	var nom string
+	for {
+		fmt.Print("Entrez votre nom  : ")
+		fmt.Scan(&nom)
+		if ValideNom(nom) {
+			break
+		} else {
+			fmt.Println("Le nom doit contenir uniquement des lettres.")
+		}
+	}
+
+	nom = formatNom(nom)
+
+	var classe string
+	for {
+		fmt.Print("Choisissez votre classe : entre LAT ET TERRO ")
+		fmt.Scan(&classe)
+		if estValideClasse(classe) {
+			break
+		} else {
+			fmt.Println("Classe invalide. Veuillez choisir une classe valide.")
+		}
+	}
+
+	var grade int
+	for {
+		fmt.Print("Entrez votre grade : ")
+		_, err := fmt.Scan(&grade)
+		if err == nil {
+			break
+		} else {
+			fmt.Println("Grade invalide. Veuillez entrer un nombre entier.")
+		}
+	}
+
+	pvMAX := 100.0
+	switch classe {
+	case "LAT":
+		pvMAX = 100.0
+	case "TERO":
+		pvMAX = 80.0
+	}
+	pv := pvMAX / 2
+	var inv []string
+	var po int
+	var skill string
+	return &Perso{
+		nom:    nom,
+		classe: classe,
+		grade:  grade,
+		pvMAX:  pvMAX,
+		pv:     pv,
+		inv:    inv,
+		po:     po,
+		skill:  skill,
 	}
 }
