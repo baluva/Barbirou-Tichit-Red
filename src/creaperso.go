@@ -242,3 +242,10 @@ func charCreation() *Perso {
 		skill:  skill,
 	}
 }
+func (p *Perso) CheckInv(item string) {    // creation de la limite de l'inventaire.
+	if len(p.inv) <10 {
+		p.inv = append(p.inv, item)
+	} else { 
+		fmt.Println("L'inventaire est plein. Impossible d'ajouter un nouvel objet. ")
+	}
+}
