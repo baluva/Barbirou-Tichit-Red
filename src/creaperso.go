@@ -136,36 +136,51 @@ func (p *Perso) displaymarchand() {
 
 	switch choix {
 	case 1:
+		if p.CheckInv(){
 		p.Addinv("Potion de vie")
 		fmt.Println("Vous avez acheté une Potion de vie.")
 		p.po = p.po - 3
 		Menu()
+		}
 	case 2:
+		if p.CheckInv(){
 		p.Addinv("Grenade")
 		fmt.Println("Vous avez acheté une Grenade.")
 		Menu()
+		}
 	case 3:
+		if p.CheckInv(){
 		p.Addinv("Couteau")
 		fmt.Println("Vous avez acheté un Couteau.")
 		Menu()
+		}
 	case 4:
+		if p.CheckInv(){
 		p.Spellbook()
 		p.po = p.po - 25
+		Menu()
+		}
 	case 5:
+		if p.CheckInv(){
 		p.Addinv("Potion de poison")
 		fmt.Println("Vous avez acheté une Potion de poison.")
 		p.po = p.po - 6
 		Menu()
+		}
 	case 6:
+		if p.CheckInv(){
 		p.Addinv("Etoffe militaire")
 		fmt.Println("Vous avez acheté une Etoffe militaire.")
 		p.po = p.po - 4
 		Menu()
+		}
 	case 7:
+		if p.CheckInv(){
 		p.Addinv("Kevlar")
 		fmt.Println("Vous avez acheté un Kevlar.")
 		p.po = p.po - 7
 		Menu()
+		}
 	case 8:
 		if p.CheckInv(){
 		p.Addinv("Cuir")
