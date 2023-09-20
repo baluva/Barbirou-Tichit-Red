@@ -118,12 +118,17 @@ func (p Perso) displayInfoLAT() {
 }
 func (p *Perso) displaymarchand() {
 	fmt.Println("Bienvenue chez le marchand !:")
-	fmt.Println("voici la liste des ")
-	fmt.Println("1. Potion de vie ")
-	fmt.Println("2. Grenade")
-	fmt.Println("3 . couteau")
-	fmt.Println("3 . livre de sort : Rage")
-	fmt.Println("0. Quitter")
+	fmt.Println("voici la liste des marchandises")
+	fmt.Println("1 . Potion de vie ")
+	fmt.Println("2 . Grenade")
+	fmt.Println("3 . Couteau")
+	fmt.Println("4 . Livre de sort : Rage")
+	fmt.Println("5 . Potion de poison")
+	fmt.Println("6 . Etoffe militaire")
+	fmt.Println("7 . Kevlar")
+	fmt.Println("8 . Cuir")
+	fmt.Println("9 . Caméra")
+	fmt.Println("0 . Quitter")
 
 	var choix int
 	fmt.Print("Choisissez un item à acheter : ")
@@ -137,11 +142,44 @@ func (p *Perso) displaymarchand() {
 		Menu()
 	case 2:
 		p.Addinv("Grenade")
+		fmt.Println("Vous avez acheté une Grenade.")
 		Menu()
 	case 3:
 		p.Addinv("Couteau")
+		fmt.Println("Vous avez acheté un Couteau.")
+		Menu()
 	case 4:
 		p.Spellbook()
+		p.po = p.po - 25
+	case 5:
+		p.Addinv("Potion de poison")
+		fmt.Println("Vous avez acheté une Potion de poison.")
+		p.po = p.po - 6
+		Menu()
+	case 6:
+		p.Addinv("Etoffe militaire")
+		fmt.Println("Vous avez acheté une Etoffe militaire.")
+		p.po = p.po - 4
+		Menu()
+	case 7:
+		p.Addinv("Kevlar")
+		fmt.Println("Vous avez acheté un Kevlar.")
+		p.po = p.po - 7
+		Menu()
+	case 8:
+		if p.CheckInv(){
+		p.Addinv("Cuir")
+			fmt.Println("Vous avez acheté un Cuir.")
+			p.po = p.po - 3
+			Menu()
+		}
+
+	case 9:
+		p.Addinv("Caméra")
+		fmt.Println("Vous avez acheté un Caméra.")
+
+		p.po = p.po - 1
+		Menu()
 	case 0:
 		Menu()
 	default:
@@ -242,10 +280,11 @@ func charCreation() *Perso {
 		skill:  skill,
 	}
 }
-func (p *Perso) CheckInv(item string) {    // creation de la limite de l'inventaire.
-	if len(p.inv) <10 {
-		p.inv = append(p.inv, item)
-	} else { 
+func (p *Perso) CheckInv() bool { // creation de la limite de l'inventaire.
+	if len(p.inv) < 10 {
+		return true
+	} else {
 		fmt.Println("L'inventaire est plein. Impossible d'ajouter un nouvel objet. ")
+		return false
 	}
 }

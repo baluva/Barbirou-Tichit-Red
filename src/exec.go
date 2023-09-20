@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (p *Perso) takeapot() {
+func (p *Perso) Takeapot() {
 	var potionIdx = -1
 	for i, item := range p.inv {
 		if item == "Potion de vie" {
@@ -24,7 +24,7 @@ func (p *Perso) takeapot() {
 	fmt.Println("Vous avez utilisé une Potion de vie.")
 	fmt.Printf("Nouveaux points de vie actuels : %d / %d\n", p.pv, p.pvMAX)
 }
-func (p *Perso) acheterItem(item string) {
+func (p *Perso) AcheterItem(item string) {
 	p.inv = append(p.inv, item)
 	fmt.Printf("%s a acheté : %s\n", p.nom, item)
 }
@@ -36,7 +36,7 @@ func Dead(p *Perso) {
 		fmt.Printf("%s est ressuscité avec %.2f points de vie\n", p.nom, p.pv)
 	}
 }
-func poisonPot(p *Perso) {
+func PoisonPot(p *Perso) {
 	fmt.Printf("une Potion de poison \n")
 	// Infliger des dégâts pendant 3 secondes
 	for i := 0; i < 3; i++ {
@@ -48,7 +48,7 @@ func poisonPot(p *Perso) {
 	fmt.Printf("L'effet du poison a disparu.\n")
 }
 
-func removeInventory(p *Perso, item string) {
+func RemoveInventory(p *Perso, item string) {
 	for i, invItem := range p.inv {
 		if invItem == item {
 			p.inv = append(p.inv[:i], p.inv[i+1:]...)
