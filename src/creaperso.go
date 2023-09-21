@@ -55,12 +55,13 @@ func Menu() {
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	fmt.Println("     ")
 	fmt.Println("➡️Menu: ")
-	fmt.Println("	👺1.Afficher les informations des TERORISTE👺 ")
-	fmt.Println("	👮🏻2.Afficher les informations des LAT (👮🏻) ")
+	fmt.Println("	👺1. Afficher les informations des TERORISTE👺 ")
+	fmt.Println("	👮🏻2. Afficher les informations des LAT (👮🏻) ")
 	fmt.Println("	🗃️3. Accéder au contenu de l'inventaire DES TERORISTE👺🗃️ ")
 	fmt.Println("	🗃️4. Accéder au contenu de l'inventaire DES des LAT (👮🏻)🗃️ ")
 	fmt.Println("	💰5. Marchand💰 ")
-	fmt.Println("	🔴6. Quitter🔴 ")
+	fmt.Println("	  6. Forgeron")                         // ATTENTION icone du forgeron a changer
+	fmt.Println("	🔴7. Quitter🔴 ")
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
 	var choix string
@@ -89,6 +90,10 @@ func Menu() {
 			p1.displaymarchand()
 
 		case "6":
+			fmt.Println("🛒💰CRAFT TIME !!💰🛒")       // ATTENTION icone du forgeron a changer
+			p1.displayForgeron()
+
+		case "7":
 			fmt.Println("GOOD BYE!!🖖🖖🖖")
 		default:
 			fmt.Println("")
@@ -301,5 +306,41 @@ func (p *Perso) CheckInv() bool { // creation de la limite de l'inventaire.
 	} else {
 		fmt.Println("L'inventaire est plein. Impossible d'ajouter un nouvel objet. ")
 		return false
+	}
+}
+
+func (p *Perso) displayForgeron() {                             // creation du menu forgeron
+	fmt.Println("Bienvenue chez le forgeron !:")
+	fmt.Println("voici la liste des marchandises")
+	fmt.Println("1 . Casque de protection. ")
+	fmt.Println("2 . Gilet par balle.")
+	fmt.Println("3 . Bottes tactiques.")
+	
+	var choix int
+	fmt.Print("Choisissez un item à fabriquer : ")
+	fmt.Scan(&choix)
+
+	switch choix {
+	case 1:
+		if p.CheckInv(){
+		p.Addinv("Casque de protection.")
+		fmt.Println("Vous avez fabriqué un Casque de protection.")
+		p.po = p.po - 5
+		Menu()
+		}
+	case 2:
+		if p.CheckInv(){
+		p.Addinv("Gilet par balle.")
+		fmt.Println("Vous avez fabriqué un Gilet par balle.")
+		p.po = p.po - 5
+		Menu()
+		}
+	case 3:
+		if p.CheckInv(){
+		p.Addinv("Bottes tactiques.")
+		fmt.Println("Vous avez fabriqué des Bottes tactiques.")
+		p.po = p.po - 5
+		Menu()
+		}
 	}
 }
