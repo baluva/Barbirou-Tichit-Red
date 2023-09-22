@@ -473,6 +473,7 @@ func (p *Perso) equiperEquipement(emplacement string, equip EquipementInfo) {
 				}		
 		}
 		p.Equipement.Tete = equip
+		
 	}
 }
 
