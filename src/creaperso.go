@@ -15,15 +15,19 @@ type Perso struct {
 	inv    map[string]int
 	po     int
 	skill  string
-	Equipement map[string]Equipement
+	Tete  string
+	Torse string
+	Pieds string
+	Equipement Equipement
 }
+
 type Item struct {
 	Name     string
 	Price    int
 	Quantity int
 }
 
-func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv map[string]int, po int, skill string,equipement map[string]string) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv map[string]int, po int, skill string,Tete string, Torse string, Pieds string) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
@@ -32,11 +36,9 @@ func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv flo
 	p.inv = inv
 	p.po = po
 	p.skill = skill
-	p.Equipement = map[string]Equipement{
-		"Tête": Equipement{},
-		"Torse": Equipement{},
-		"Pieds": Equipement{},
-	}
+	p.Tete = Tete
+	p.Torse = Torse
+	p.Pieds = Pieds
 }
 
 var p1 Perso
@@ -54,7 +56,10 @@ func main() {
 	fmt.Printf("Inventaire : %v\n", personnage.inv)
 	fmt.Printf("Pièces d'or : %d\n", personnage.po)
 	fmt.Printf("Compétence : %s\n", personnage.skill)
-	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, map[string]int{"M4":1, "Armure légère":1, "Potion de vie":1}, 100, "skill",map[string]string{})
+	fmt.Printf("Tete : %s\n", personnage.Tete)
+	fmt.Printf("Torse : %s\n", personnage.Torse)
+	fmt.Printf("Pieds : %s\n", personnage.Pieds)
+	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, map[string]int{"M4":1, "Armure légère":1, "Potion de vie":1}, 100, "skill", "Casque", "Gilet", "Bottes")
 	Menu()
 }
 func Menu() {
@@ -415,53 +420,72 @@ type EquipementInfo struct {
 }
 
 type Equipement struct {
-	Tête  EquipementInfo
+	Tete  EquipementInfo
 	Torse EquipementInfo
 	Pieds EquipementInfo
 }
 
-func (p *Perso) getAncienEquipement(emplacement string) Equipement {
-    if emplacement == "Tete" || emplacement == "Torse" || emplacement == "Pieds" {
-        return p.Equipement[emplacement]
-    }
-    return Equipement{} // Retourne un équipement vide s'il y a un emplacement invalide
-}
 
 func (p *Perso) equiperEquipement(emplacement string, equip EquipementInfo) {
-    if emplacement == "Tete" || emplacement == "Torse" || emplacement == "Pieds" {
-        ancienEquip := p.getAncienEquipement(emplacement)
-        if ancienEquip.Nom != "" {
-            var choix string
-            fmt.Printf("Il y a déjà un équipement à l'emplacement %s. Voulez-vous le remplacer ? (O/N) :", emplacement)
-            fmt.Scan(&choix)
-            if choix == "O" || choix == "o" {
-                p.inv[ancienEquip.Nom]++
-                p.inv[equip.Nom]--
-                switch emplacement {
-                case "Tete":
-                    p.Equipement[emplacement] = equip
-                case "Torse":
-                    p.Equipement[emplacement] = equip
-                case "Pieds":
-                    p.Equipement[emplacement] = equip
-                }
-                fmt.Printf("Nouvel équipement équipé à l'emplacement %s.\n", emplacement)
-            } else {
-                fmt.Println("Opération annulée")
-            }
-        } else {
-            p.inv[equip.Nom]--
-            switch emplacement {
-            case "Tete":
-                p.Equipement[emplacement] = equip
-            case "Torse":
-                p.Equipement[emplacement] = equip
-            case "Pieds":
-                p.Equipement[emplacement] = equip
-            }
-            fmt.Printf("Nouvel équipement équipé à l'emplacement %s.\n", emplacement)
-        }
-    } else {
-        fmt.Println("Emplacement invalide.")
-    }
+	switch emplacement {
+	case "Tete":
+		p.inv[equip.Nom]--
+		ancienEquip := p.Equipement.Tete
+		if ancienEquip.Nom != "" {
+			var choix string
+			fmt.Printf("Il y a déjà un équipement à l'emplacement %s. Voulez-vous le remplacer ? (O/N) :", emplacement)
+			fmt.Scan(&choix)
+			if choix == "O" || choix == "o" {
+				p.inv[ancienEquip.Nom]++
+			} else {
+				fmt.Println("Opération annulée")
+				return
+			}
+		}
+		p.Equipement.Tete = equip
+	case "Torse":
+		p.inv[equip.Nom]--
+		ancienEquip := p.Equipement.Torse
+		if ancienEquip.Nom != "" {
+			var choix string
+			fmt.Printf("Il y a déjà un équipement à l'emplacement %s. Voulez-vous le remplacer ? (O/N) :", emplacement)
+			fmt.Scan(&choix)
+			if choix == "O" || choix == "o" {
+				p.inv[ancienEquip.Nom]++
+			} else {
+				fmt.Println("Opération annulée")
+				return
+			}
+		}
+		p.Equipement.Tete = equip	
+	case "Pieds":
+			p.inv[equip.Nom]--
+			ancienEquip := p.Equipement.Pieds
+			if ancienEquip.Nom != "" {
+				var choix string
+				fmt.Printf("Il y a déjà un équipement à l'emplacement %s. Voulez-vous le remplacer ? (O/N) :", emplacement)
+				fmt.Scan(&choix)
+				if choix == "O" || choix == "o" {
+					p.inv[ancienEquip.Nom]++
+				} else {
+					fmt.Println("Opération annulée")
+					return
+				}		
+		}
+		p.Equipement.Tete = equip
+	}
 }
+
+func (p *Perso) GetEquipement(emplacement string) EquipementInfo {
+	switch emplacement {
+	case "Tete":
+		return p.Equipement.Tete
+	case "Torse":
+		return p.Equipement.Torse
+	case "Pieds":
+		return p.Equipement.Pieds
+	default:
+		return EquipementInfo{}
+	}
+}
+
