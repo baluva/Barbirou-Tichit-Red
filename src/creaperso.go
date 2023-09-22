@@ -12,7 +12,7 @@ type Perso struct {
 	grade  int
 	pvMAX  float64
 	pv     float64
-	inv    []string
+	inv    map[string]int
 	po     int
 	skill  string
 }
@@ -22,7 +22,7 @@ type Item struct {
 	Quantity int
 }
 
-func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv []string, po int, skill string) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv map[string]int, po int, skill string) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
@@ -48,7 +48,7 @@ func main() {
 	fmt.Printf("Inventaire : %v\n", personnage.inv)
 	fmt.Printf("Pièces d'or : %d\n", personnage.po)
 	fmt.Printf("Compétence : %s\n", personnage.skill)
-	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, []string{"M4", "Armure légère", "Potion de vie"}, 100, "")
+	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, map[string]int{"M4":1, "Armure légère":1, "Potion de vie":1}, 100, "")
 	Menu()
 }
 func Menu() {
@@ -60,7 +60,7 @@ func Menu() {
 	fmt.Println("	🗃️3. Accéder au contenu de l'inventaire DES TERORISTE👺🗃️ ")
 	fmt.Println("	🗃️4. Accéder au contenu de l'inventaire DES des LAT (👮🏻)🗃️ ")
 	fmt.Println("	💰5. Marchand💰 ")
-	fmt.Println("	  6. Forgeron")                         // ATTENTION icone du forgeron a changer
+	fmt.Println("	  6. Forgeron") // ATTENTION icone du forgeron a changer
 	fmt.Println("	🔴7. Quitter🔴 ")
 	fmt.Println("。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。+゜゜。。゜+゜。。+゜゜")
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
@@ -90,7 +90,7 @@ func Menu() {
 			p1.displaymarchand()
 
 		case "6":
-			fmt.Println("🛒💰CRAFT TIME !!💰🛒")       // ATTENTION icone du forgeron a changer
+			fmt.Println("🛒💰CRAFT TIME !!💰🛒") // ATTENTION icone du forgeron a changer
 			p1.displayForgeron()
 
 		case "7":
@@ -141,70 +141,76 @@ func (p *Perso) displaymarchand() {
 
 	switch choix {
 	case 1:
-		if p.CheckInv(){
-		p.Addinv("Potion de vie")
-		fmt.Println("Vous avez acheté une Potion de vie.")
-		p.po = p.po - 3
-		Menu()
+		if p.po >= 3 { // Vérifiez si le personnage a assez d'argent pour acheter la potion de vie
+			p.Addinv("Potion de vie")
+			fmt.Println("Vous avez acheté une Potion de vie.")
+			p.po = p.po - 3 // Soustrayez le coût de la potion à l'argent du personnage
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
 	case 2:
-		if p.CheckInv(){
-		p.Addinv("Grenade")
-		fmt.Println("Vous avez acheté une Grenade.")
-		Menu()
+		if p.po >= 6 { // Vérifiez si le personnage a assez d'argent pour acheter la Grenade
+			p.Addinv("Grenade")
+			fmt.Println("Vous avez acheté une Grenade.")
+			p.po = p.po - 6 // Soustrayez le coût de la potion à l'argent du personnage
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
 	case 3:
-		if p.CheckInv(){
-		p.Addinv("Couteau")
-		fmt.Println("Vous avez acheté un Couteau.")
-		Menu()
+		if p.po >= 8 { // Vérifiez si le personnage a assez d'argent pour acheter le Couteau
+			p.Addinv("Couteau")
+			fmt.Println("Vous avez acheté un Couteau.")
+			p.po = p.po - 8 // Soustrayez le coût de la potion à l'argent du personnage
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
-	case 4:
-		if p.CheckInv(){
+	case 4: /* case 4 a finir de determiner l'utilisation de cet objet
+		if p.po >= 3 { // Vérifiez si le personnage a assez d'argent pour acheter la potion de vie
 		p.Spellbook()
 		p.po = p.po - 25
-		Menu()
-		}
+		}																								*/
 	case 5:
-		if p.CheckInv(){
-		p.Addinv("Potion de poison")
-		fmt.Println("Vous avez acheté une Potion de poison.")
-		p.po = p.po - 6
-		Menu()
+		if p.po >= 6 { // Vérifiez si le personnage a assez d'argent pour acheter la Potion de poison
+			p.Addinv("Potion de poison")
+			fmt.Println("Vous avez acheté une Potion de poison.")
+			p.po = p.po - 6
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
 	case 6:
-		if p.CheckInv(){
-		p.Addinv("Etoffe militaire")
-		fmt.Println("Vous avez acheté une Etoffe militaire.")
-		p.po = p.po - 4
-		Menu()
+		if p.po >= 4 { // Vérifiez si le personnage a assez d'argent pour acheter l'Etoffe militaire
+			p.Addinv("Etoffe militaire")
+			fmt.Println("Vous avez acheté une Etoffe militaire.")
+			p.po = p.po - 4
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
 	case 7:
-		if p.CheckInv(){
-		p.Addinv("Kevlar")
-		fmt.Println("Vous avez acheté un Kevlar.")
-		p.po = p.po - 7
-		Menu()
+		if p.po >= 7 { // Vérifiez si le personnage a assez d'argent pour acheter le Kevlar
+			p.Addinv("Kevlar")
+			fmt.Println("Vous avez acheté un Kevlar.")
+			p.po = p.po - 7
 		}
 	case 8:
-		if p.CheckInv(){
-		p.Addinv("Cuir")
+		if p.po >= 3 { // Vérifiez si le personnage a assez d'argent pour acheter le Cuir
+			p.Addinv("Cuir")
 			fmt.Println("Vous avez acheté un Cuir.")
 			p.po = p.po - 3
-			Menu()
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
-
 	case 9:
-		p.Addinv("Caméra")
-		fmt.Println("Vous avez acheté un Caméra.")
-
-		p.po = p.po - 1
-		Menu()
-	case 0:
-		Menu()
+		if p.po >= 1 { // Vérifiez si le personnage a assez d'argent pour acheter la Camera
+			p.Addinv("Caméra")
+			fmt.Println("Vous avez acheté un Caméra.")
+			p.po = p.po - 1
+		} else {
+			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
+		}
 	default:
 		fmt.Println("Choix invalide.")
 	}
+	Menu()
 }
 
 func (p *Perso) displayInfoTERO() {
@@ -229,11 +235,14 @@ func (p *Perso) displayInfoTERO() {
 }
 func (p *Perso) accessInventory() {
 	fmt.Println("Inventaire du Personnage :")
-	for i, item := range p.inv {
-		fmt.Printf("%d. %s\n", i+1, item)
+		i := 1
+	for item, quantity := range p.inv {
+		fmt.Printf("%d. %s (Quantité : %d)\n", i, item, quantity)
+		i++
 	}
-	var choix string
+
 	fmt.Println("🔙0. Retour au menu précédent🔙")
+	var choix string
 	scanner := bufio.NewScanner(os.Stdin) // création du scanner capturant une entrée utilisateur
 	fmt.Print("choisissez une option")
 	scanner.Scan()         // lancement du scanner
@@ -241,7 +250,7 @@ func (p *Perso) accessInventory() {
 	if choix == "0" {
 		Menu()
 	}
-}
+}	
 func charCreation() *Perso {
 	var nom string
 	for {
@@ -286,7 +295,7 @@ func charCreation() *Perso {
 		pvMAX = 80.0
 	}
 	pv := pvMAX / 2
-	var inv []string
+	var inv map[string]int
 	var po int
 	var skill string
 	return &Perso{
@@ -309,38 +318,48 @@ func (p *Perso) CheckInv() bool { // creation de la limite de l'inventaire.
 	}
 }
 
-func (p *Perso) displayForgeron() {                             // creation du menu forgeron
+func (p *Perso) displayForgeron() { // creation du menu forgeron
 	fmt.Println("Bienvenue chez le forgeron !:")
 	fmt.Println("voici la liste des marchandises")
 	fmt.Println("1 . Casque de protection. ")
-	fmt.Println("2 . Gilet par balle.")
+	fmt.Println("2 . Gilet pare-balle.")
 	fmt.Println("3 . Bottes tactiques.")
-	
+
 	var choix int
 	fmt.Print("Choisissez un item à fabriquer : ")
 	fmt.Scan(&choix)
 
 	switch choix {
 	case 1:
-		if p.CheckInv(){
-		p.Addinv("Casque de protection.")
-		fmt.Println("Vous avez fabriqué un Casque de protection.")
-		p.po = p.po - 5
-		Menu()
+		if p.inv["Caméra"] >= 1 && p.inv["Cuir"] >= 1 {
+			p.inv["Caméra"] -= 1
+			p.inv["Cuir"] -= 1
+			p.Addinv("Casque de protection.")
+			fmt.Println("Vous avez fabriqué un Casque de protection.")
+			p.po = p.po - 5
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
 		}
 	case 2:
-		if p.CheckInv(){
-		p.Addinv("Gilet par balle.")
-		fmt.Println("Vous avez fabriqué un Gilet par balle.")
-		p.po = p.po - 5
-		Menu()
+		if p.inv["Etoffe militaire"] >= 2 && p.inv["Kevlar"] >= 1 {
+			p.inv["Etoffe militaire"] -= 2
+			p.inv["Kevlar"] -= 1
+			p.Addinv("Gilet pare-balle.")
+			fmt.Println("Vous avez fabriqué un Gilet pare-balle.")
+			p.po = p.po - 5
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
 		}
 	case 3:
-		if p.CheckInv(){
-		p.Addinv("Bottes tactiques.")
-		fmt.Println("Vous avez fabriqué des Bottes tactiques.")
-		p.po = p.po - 5
-		Menu()
+		if p.inv["Etoffe militaire"] > 1 && p.inv["Cuir"] > 1 {
+			p.inv["Etoffe militaire"] -= 1
+			p.inv["Cuir"] -= 1
+			p.Addinv("Bottes tactiques.")
+			fmt.Println("Vous avez fabriqué des Bottes tactiques.")
+			p.po = p.po - 5
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
 		}
 	}
+	Menu()
 }
