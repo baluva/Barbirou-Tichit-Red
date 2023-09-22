@@ -15,6 +15,7 @@ type Perso struct {
 	inv    map[string]int
 	po     int
 	skill  string
+	equipement map[string]string
 }
 type Item struct {
 	Name     string
@@ -22,7 +23,7 @@ type Item struct {
 	Quantity int
 }
 
-func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv map[string]int, po int, skill string) {
+func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv float64, inv map[string]int, po int, skill string,equipement map[string]string) {
 	p.nom = nom
 	p.classe = classe
 	p.grade = grade
@@ -31,6 +32,7 @@ func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv flo
 	p.inv = inv
 	p.po = po
 	p.skill = skill
+	p.equipement = equipement
 }
 
 var p1 Perso
@@ -48,7 +50,7 @@ func main() {
 	fmt.Printf("Inventaire : %v\n", personnage.inv)
 	fmt.Printf("Pièces d'or : %d\n", personnage.po)
 	fmt.Printf("Compétence : %s\n", personnage.skill)
-	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, map[string]int{"M4":1, "Armure légère":1, "Potion de vie":1}, 100, "")
+	p2.Init("SCOTT ALDEN", "ANTI terroriste", 1, 100, 70, map[string]int{"M4":1, "Armure légère":1, "Potion de vie":1}, 100, "skill",map[string]string{})
 	Menu()
 }
 func Menu() {
@@ -362,4 +364,9 @@ func (p *Perso) displayForgeron() { // creation du menu forgeron
 		}
 	}
 	Menu()
+}
+type Equipement struct {
+	EquipementDeTête string
+	EquipementPourLeTorse string
+	EquipementPourLesPieds string
 }
