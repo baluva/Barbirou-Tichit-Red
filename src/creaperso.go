@@ -15,7 +15,7 @@ type Perso struct {
 	inv    map[string]int
 	po     int
 	skill  string
-	equipement map[string]string
+	Equipement map[string]Equipement
 }
 type Item struct {
 	Name     string
@@ -32,7 +32,11 @@ func (p *Perso) Init(nom string, classe string, grade int, pvMAX float64, pv flo
 	p.inv = inv
 	p.po = po
 	p.skill = skill
-	p.equipement = equipement
+	p.Equipement = map[string]Equipement{
+		"Tête": Equipement{},
+		"Torse": Equipement{},
+		"Pieds": Equipement{},
+	}
 }
 
 var p1 Perso
@@ -126,7 +130,7 @@ func (p Perso) displayInfoLAT() {
 func (p *Perso) displaymarchand() {
 	fmt.Println("Bienvenue chez le marchand !:")
 	fmt.Println("voici la liste des marchandises")
-	fmt.Println("1 . Potion de vie ")
+	fmt.Println("1 . Potion de vie")
 	fmt.Println("2 . Grenade")
 	fmt.Println("3 . Couteau")
 	fmt.Println("4 . Livre de sort : Rage")
@@ -135,6 +139,7 @@ func (p *Perso) displaymarchand() {
 	fmt.Println("7 . Kevlar")
 	fmt.Println("8 . Cuir")
 	fmt.Println("9 . Caméra")
+	fmt.Println("10 . Augmentation d'inventaire")
 	fmt.Println("0 . Quitter")
 
 	var choix int
@@ -206,6 +211,12 @@ func (p *Perso) displaymarchand() {
 			p.Addinv("Caméra")
 			fmt.Println("Vous avez acheté un Caméra.")
 			p.po = p.po - 1
+		}
+	case 10:
+		if p.po >= 30 {
+			p.Addinv("Augmentation d'inventaire")
+			fmt.Println("Vous avez acheté une augmentation d'inventaire.")
+			p.po = p.po - 30
 		} else {
 			fmt.Println("Vous n'avez pas assez d'argent pour acheter cela.")
 		}
@@ -323,10 +334,12 @@ func (p *Perso) CheckInv() bool { // creation de la limite de l'inventaire.
 func (p *Perso) displayForgeron() { // creation du menu forgeron
 	fmt.Println("Bienvenue chez le forgeron !:")
 	fmt.Println("voici la liste des marchandises")
-	fmt.Println("1 . Casque de protection. ")
-	fmt.Println("2 . Gilet pare-balle.")
-	fmt.Println("3 . Bottes tactiques.")
-
+	fmt.Println("1 . Casque de protection lv1. ")
+	fmt.Println("2 . Gilet pare-balle lv1.")
+	fmt.Println("3 . Bottes tactiques lv1.")
+	fmt.Println("4 . Casque de protection lv2. ")
+	fmt.Println("5 . Gilet pare-balle lv2.")
+	fmt.Println("6 . Bottes tactiques lv2.")
 	var choix int
 	fmt.Print("Choisissez un item à fabriquer : ")
 	fmt.Scan(&choix)
@@ -336,8 +349,8 @@ func (p *Perso) displayForgeron() { // creation du menu forgeron
 		if p.inv["Caméra"] >= 1 && p.inv["Cuir"] >= 1 {
 			p.inv["Caméra"] -= 1
 			p.inv["Cuir"] -= 1
-			p.Addinv("Casque de protection.")
-			fmt.Println("Vous avez fabriqué un Casque de protection.")
+			p.Addinv("Casque de protection lv1.")
+			fmt.Println("Vous avez fabriqué un Casque de protection lv1.")
 			p.po = p.po - 5
 		} else {
 			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
@@ -346,8 +359,8 @@ func (p *Perso) displayForgeron() { // creation du menu forgeron
 		if p.inv["Etoffe militaire"] >= 2 && p.inv["Kevlar"] >= 1 {
 			p.inv["Etoffe militaire"] -= 2
 			p.inv["Kevlar"] -= 1
-			p.Addinv("Gilet pare-balle.")
-			fmt.Println("Vous avez fabriqué un Gilet pare-balle.")
+			p.Addinv("Gilet pare-balle lv1.")
+			fmt.Println("Vous avez fabriqué un Gilet pare-balle lv1.")
 			p.po = p.po - 5
 		} else {
 			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
@@ -356,17 +369,99 @@ func (p *Perso) displayForgeron() { // creation du menu forgeron
 		if p.inv["Etoffe militaire"] > 1 && p.inv["Cuir"] > 1 {
 			p.inv["Etoffe militaire"] -= 1
 			p.inv["Cuir"] -= 1
-			p.Addinv("Bottes tactiques.")
-			fmt.Println("Vous avez fabriqué des Bottes tactiques.")
+			p.Addinv("Bottes tactiques lv1.")
+			fmt.Println("Vous avez fabriqué des Bottes tactiques lv1.")
 			p.po = p.po - 5
 		} else {
 			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
 		}
+	case 4:
+		if p.inv["Caméra"] >= 2 && p.inv["Cuir"] >= 2 {
+			p.inv["Caméra"] -= 2
+			p.inv["Cuir"] -= 2
+			p.Addinv("Casque de protection lv2.")
+			fmt.Println("Vous avez fabriqué un Casque de protection lv2.")
+			p.po = p.po - 10
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
+		}
+	case 5:
+		if p.inv["Etoffe militaire"] >= 4 && p.inv["Kevlar"] >= 2 {
+			p.inv["Etoffe militaire"] -= 4
+			p.inv["Kevlar"] -= 2
+			p.Addinv("Gilet pare-balle lv2.")
+			fmt.Println("Vous avez fabriqué un Gilet pare-balle lv2.")
+			p.po = p.po - 10
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")
+		}
+	case 6:
+		if p.inv["Etoffe militaire"] > 2 && p.inv["Cuir"] > 2 {
+			p.inv["Etoffe militaire"] -= 2
+			p.inv["Cuir"] -= 2
+			p.Addinv("Bottes tactiques lv2.")
+			fmt.Println("Vous avez fabriqué des Bottes tactiques lv2.")
+			p.po = p.po - 10
+		} else {
+			fmt.Println("Vous n'avez pas suffisamment de ressources pour fabriquer cela. ")		
+		}
 	}
 	Menu()
 }
+
+type EquipementInfo struct {
+	Nom     string
+	BonusPv int
+}
+
 type Equipement struct {
-	EquipementDeTête string
-	EquipementPourLeTorse string
-	EquipementPourLesPieds string
+	Tête  EquipementInfo
+	Torse EquipementInfo
+	Pieds EquipementInfo
+}
+
+func (p *Perso) getAncienEquipement(emplacement string) Equipement {
+    if emplacement == "Tete" || emplacement == "Torse" || emplacement == "Pieds" {
+        return p.Equipement[emplacement]
+    }
+    return Equipement{} // Retourne un équipement vide s'il y a un emplacement invalide
+}
+
+func (p *Perso) equiperEquipement(emplacement string, equip EquipementInfo) {
+    if emplacement == "Tete" || emplacement == "Torse" || emplacement == "Pieds" {
+        ancienEquip := p.getAncienEquipement(emplacement)
+        if ancienEquip.Nom != "" {
+            var choix string
+            fmt.Printf("Il y a déjà un équipement à l'emplacement %s. Voulez-vous le remplacer ? (O/N) :", emplacement)
+            fmt.Scan(&choix)
+            if choix == "O" || choix == "o" {
+                p.inv[ancienEquip.Nom]++
+                p.inv[equip.Nom]--
+                switch emplacement {
+                case "Tete":
+                    p.Equipement[emplacement] = equip
+                case "Torse":
+                    p.Equipement[emplacement] = equip
+                case "Pieds":
+                    p.Equipement[emplacement] = equip
+                }
+                fmt.Printf("Nouvel équipement équipé à l'emplacement %s.\n", emplacement)
+            } else {
+                fmt.Println("Opération annulée")
+            }
+        } else {
+            p.inv[equip.Nom]--
+            switch emplacement {
+            case "Tete":
+                p.Equipement[emplacement] = equip
+            case "Torse":
+                p.Equipement[emplacement] = equip
+            case "Pieds":
+                p.Equipement[emplacement] = equip
+            }
+            fmt.Printf("Nouvel équipement équipé à l'emplacement %s.\n", emplacement)
+        }
+    } else {
+        fmt.Println("Emplacement invalide.")
+    }
 }
