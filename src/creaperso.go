@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"bufio"
@@ -339,11 +339,11 @@ func (p *Perso) CheckInv() bool { // creation de la limite de l'inventaire.
 func (p *Perso) displayForgeron() { // creation du menu forgeron
 	fmt.Println("Bienvenue chez le forgeron !:")
 	fmt.Println("voici la liste des marchandises")
-	fmt.Println("1 . Casque de protection lv1. ")
-	fmt.Println("2 . Gilet pare-balle lv1.")
+	fmt.Println("1 . Casque de Protection Niveau 1. ")
+	fmt.Println("2 . Gilet Pare-Balle Niveau 1.")
 	fmt.Println("3 . Bottes tactiques lv1.")
-	fmt.Println("4 . Casque de protection lv2. ")
-	fmt.Println("5 . Gilet pare-balle lv2.")
+	fmt.Println("4 . Casque de Protection Niveau 2 ")
+	fmt.Println("5 . Gilet Pare-Balle Niveau 2.")
 	fmt.Println("6 . Bottes tactiques lv2.")
 	var choix int
 	fmt.Print("Choisissez un item à fabriquer : ")
@@ -491,4 +491,120 @@ func (p *Perso) GetEquipement(emplacement string) EquipementInfo {
 }
 
 
+
+CasqueLv1 := EquipementInfo{
+	Nom:		"Casque de Protection Niveau 1",
+	BonusPv: +10,
+}
+	
+CasqueLv2 := EquipementInfo{
+	Nom:		"Casque de Protection Niveau 2"
+	BonusPv: +20
+}
+
+GiletLv1 := EquipementInfo{
+	Nom:		"Gilet Pare-Balle Niveau 1"
+	BonusPv: +25
+}
+
+GiletLv2 := EquipementInfo{
+	Nom:		"Gilet Par-Balle Niveau 2"
+	BonusPv: +50
+}
+
+BottesLv1 := EquipementInfo{
+	Nom:		"Bottes Tactiques Niveau 1"
+	BonusPv: +15
+}
+
+BottesLv2 := EquipementInfo{
+	Nom:		"Bottes Tactiques Niveau 2"
+	BonusPv: +30
+}
+
+//
+//
+//
+//
+//
+//
+func upgradeInventorySlot(p *Perso, marchand *Marchand) {
+	if p.po >= 30 && p.Utilisations < 3 {
+		p.InvMax += 10
+		p.po = p.po -30
+		p.Utilisations++
+		fmt.Printf("Vous avez maintenant une capacité maximale de %d dans son inventaire")
+	} else {
+		fmt.Println("Impossible d'effectuer l'upgrade de l'inventaire.")
+	}
+}
+
+type Zombie struct {
+	nom    string
+	pvMAX  float64
+	pv     float64
+	pAttaque  float64
+
+}
+
+func InitZombie(nom string, pvMAX float64, pv float64,pAttaque  float64) {
+	z.nom = Zombie
+	z.pv = 40
+	z.pvMAX = 40
+	z.p.Attaque = 5
+}
+
+func trainingFight(p *Perso, z *Zombie) {
+	var tourDeCombat int
+
+	for tourDeCombat = 1; p.pv > 0 && z.pv > 0; tourDeCombat++ {
+		// Tour du joueur
+		fmt.Printf("\nTour %d - %s attaque %s !\n", tourDeCombat, p.nom, z.nom)
+		z.pv -= 10
+
+		// Vérification si le monstre est vaincu
+		if z.pv <= 0 {
+			fmt.Printf("%s a vaincu %s !\n", p.nom, z.nom)
+			break
+		}
+
+		// Tour du monstre
+		fmt.Printf("\nTour %d - %s attaque %s !\n", tourDeCombat, z.nom, p.nom)
+		p.pv -= 10
+
+		// Vérification si le joueur est vaincu
+		if p.pv <= 0 {
+			fmt.Printf("%s a été vaincu par %s !\n", p.nom, z.nom)
+			break
+		}
+	}
+
+	fmt.Printf("\nFin du combat après le tour %d.\n", tourDeCombat)
+}
+
+
+
+func zombiePattern(p *perso, z zombie) {
+	for tour := 1; p.pv > 0; tour++ {
+		zombie.Tour++
+
+		var DegatsInfliges int
+
+		if zombie.Tour % 3 == 0 {
+			DegatsInfliges = z.pAttaque * 2
+		} else {
+			DegatsInfliges = z.pAttaque
+		}
+
+		p.pv -= degatsInfliges
+
+		fmt.Printf("%s inflige à %s %d de dégâts.\n", z.nom, p.nom, degatsInfliges)
+		fmt.Printf("Points de vie actuels de %s : %d/%d\n", p.nom, p.pv, p.pvMAX)
+
+		if p.pv <= 0 {
+			fmt.Printf("%s a été vaincu par %s !\n", p.nom, z.nom)
+			break
+		}
+	}
+}
 
