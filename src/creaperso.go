@@ -473,7 +473,7 @@ func (p *Perso) equiperEquipement(emplacement string, equip EquipementInfo) {
 				}		
 		}
 		p.Equipement.Tete = equip
-		
+
 	}
 }
 
@@ -489,4 +489,6 @@ func (p *Perso) GetEquipement(emplacement string) EquipementInfo {
 		return EquipementInfo{}
 	}
 }
+
+
 
