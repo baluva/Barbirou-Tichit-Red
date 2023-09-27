@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"red/perso"
+	perso "red/src/perso"
 
 	"github.com/mbndr/figlet4go"
 )
