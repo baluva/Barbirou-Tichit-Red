@@ -16,7 +16,8 @@ func main() {
 	perso.ClearScreen()
 	DisplayCSGOWelcome()
 	personnage := perso.CharCreation()
-	fmt.Println("Personnage créé avec succès ! ")
+	Displaysuc()
+	time.Sleep(3 * time.Second)
 	personnage.Menu()
 }
 
@@ -47,4 +48,12 @@ func displayhist() {
 	time.Sleep(2 * time.Second)
 	fmt.Printf("%s\n", gameplay)
 	time.Sleep(2 * time.Second)
+}
+func Displaysuc() {
+	perso.ClearScreen()
+	ascii := figlet4go.NewAsciiRender()
+	renderStr, _ := ascii.Render("personnage créé")
+	greenText := "\x1b[32m" + renderStr + "\x1b[0m"
+	fmt.Println(greenText)
+
 }

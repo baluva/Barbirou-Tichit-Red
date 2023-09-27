@@ -26,6 +26,8 @@ func trainingFight(player *Perso) {
 	monstre := InitGoblin()
 	tourDeCombat := 1
 	for player.pv > 0 && monstre.pv > 0 {
+		ClearScreen()
+		fmt.Println("visez bien!!!")
 		fmt.Printf(redText+"\n-- Tour de combat %d --\n"+reset, tourDeCombat)
 		fmt.Printf(redText+"Points de vie du joueur : %.1f / %.1f\n"+reset, player.pv, player.pvMAX)
 		fmt.Printf(redText+"Points de vie du monstre : %.1f / %.1f\n"+reset, monstre.pv, monstre.pvMAX)
@@ -47,6 +49,8 @@ func trainingFight(player *Perso) {
 			continue
 		}
 		if monstre.pv <= 0 {
+			ClearScreen()
+			fmt.Println("😵😵😵😵😵😵😵😵😵")
 			fmt.Println(yellowText + "Vous avez vaincu le monstre !" + resety)
 			return
 		}
@@ -76,7 +80,9 @@ func goblinPattern(player *Perso) {
 			fmt.Printf("Points de vie actuels de %s : %.1f/%.1f\n", player.nom, player.pv, player.pvMAX)
 
 			if player.pv <= 0 {
-				fmt.Printf("%s a été vaincu par %s !\n", player.nom, goblin.nom)
+				ClearScreen()
+				fmt.Println("😵😵😵😵😵😵😵")
+				fmt.Printf(yellowText+"%s a été vaincu par %s !\n"+resety, player.nom, goblin.nom)
 				break
 			}
 		}

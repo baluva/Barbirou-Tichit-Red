@@ -3,7 +3,9 @@ package perso
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
+	"time"
 )
 
 // tous les item disponible dans le jeu
@@ -56,12 +58,14 @@ type Perso struct {
 	Pieds         string
 	Equipement    Equipement
 	pointsAttaque int
+	initiative    int
 }
 type Monstre struct {
 	nom           string
 	pvMAX         float64
 	pv            float64
 	pointsAttaque int
+	initiative    int
 }
 
 // ItemType represents the type of an item.
@@ -163,6 +167,7 @@ func CharCreation() *Perso {
 // affiche le menu du personnage et permet au joueur de choisir les options.
 func (p *Perso) Menu() {
 	for true {
+		ClearScreen()
 		fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 		fmt.Println("-----------------MENU-----------------------:")
 		fmt.Println("👨‍💻1. Afficher les informations du personnage")
@@ -199,8 +204,10 @@ func (p *Perso) Menu() {
 			fmt.Println("ABBA")
 			fmt.Println("Steven Spielberg")
 			fmt.Println("QUEEN (Freddie Mercury)")
+			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 		case "7":
-			fmt.Println("Au revoir !")
+			ClearScreen()
+			goodbye()
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 			return
 		default:
@@ -211,6 +218,7 @@ func (p *Perso) Menu() {
 
 // DisplayInventory affiche l'inventaire du personnage et permet au joueur d'interagir avec lui.
 func (p *Perso) DisplayInventory() {
+	fmt.Println("-----------🎒🎒🎒🎒🎒🎒🎒🎒---------------")
 	fmt.Println("Inventaire du Personnage :")
 	i := 1
 	for item, quantity := range p.inv {
@@ -250,26 +258,28 @@ func (p *Perso) DisplayInfo() {
 	fmt.Println("Tête :", p.Tete)
 	fmt.Println("Torse :", p.Torse)
 	fmt.Println("Pieds :", p.Pieds)
+	time.Sleep(5 * time.Second)
 }
 
 // DisplayMarchand affiche les articles disponibles à l'achat chez le commerçant.
 func (p *Perso) DisplayMarchand() {
+	fmt.Println("-----------💲💲💲💲💲💲💲💲💲💲💲💲💲💲----------")
 	fmt.Println("Bienvenue chez le marchand !")
-	fmt.Println("Voici la liste des marchandises :")
-	fmt.Println("1. Potion de vie - 3 pièces d'or")
-	fmt.Println("2. Grenade - 6 pièces d'or")
-	fmt.Println("3. Couteau - 8 pièces d'or")
-	fmt.Println("4. Livre de sort : Rage - 25 pièces d'or")
-	fmt.Println("5. Potion de poison - 6 pièces d'or")
-	fmt.Println("6. Etoffe militaire - 4 pièces d'or")
-	fmt.Println("7. Kevlar - 7 pièces d'or")
-	fmt.Println("8. Cuir - 3 pièces d'or")
-	fmt.Println("9. Caméra - 1 pièce d'or")
-	fmt.Println("10. Augmentation d'inventaire - 30 pièces d'or")
-	fmt.Println("0. Quitter")
+	fmt.Println("🔽Voici la liste des marchandises :🔽")
+	fmt.Println("1.🍯 Potion de vie - 3 pièces d'or")
+	fmt.Println("2.🥫 Grenade - 6 pièces d'or")
+	fmt.Println("3.🔪 Couteau - 8 pièces d'or")
+	fmt.Println("4.📗 Livre de sort : Rage - 25 pièces d'or")
+	fmt.Println("5.🦂 Potion de poison - 6 pièces d'or")
+	fmt.Println("6.💂 Etoffe militaire - 4 pièces d'or")
+	fmt.Println("7.🧥 Kevlar - 7 pièces d'or")
+	fmt.Println("8.🧤 Cuir - 3 pièces d'or")
+	fmt.Println("9.📹 Caméra - 1 pièce d'or")
+	fmt.Println("10.🆙 Augmentation d'inventaire - 30 pièces d'or")
+	fmt.Println("0.🔙 Quitter")
 
 	var choix int
-	fmt.Print("Choisissez un item à acheter : ")
+	fmt.Print("Choisissez un item à acheter💰 : ")
 	fmt.Scan(&choix)
 
 	switch choix {
@@ -320,13 +330,15 @@ func (p *Perso) DisplayMarchand() {
 
 // DisplayForgeron affiche les objets disponibles pour la fabrication chez le forgeron.
 func (p *Perso) DisplayForgeron() {
+	ClearScreen()
 	fmt.Println(".-~-.-~-.-~.-~-.-~-.-~")
 	fmt.Println("Bienvenue chez le forgeron !")
+	fmt.Println("--------🪓🪓🪓🪓🪓🪓🪓🪓🪓🪓🪓🪓--------")
 	fmt.Println("Voici la liste des fabrications :")
-	fmt.Println("1. Casque de protection lv1 - 5 pièces d'or, 1 Caméra, 1 Cuir")
+	fmt.Println("1. 🔽⛑️Casque de protection lv1 - 5 pièces d'or, 1 Caméra, 1 Cuir🔽")
 	fmt.Println("2. Gilet pare-balle lv1 - 5 pièces d'or, 2 Etoffe militaire, 1 Kevlar")
-	fmt.Println("3. Bottes tactiques lv1 - 5 pièces d'or, 1 Etoffe militaire, 1 Cuir")
-	fmt.Println("4. Casque de protection lv2 - 10 pièces d'or, 2 Caméras, 2 Cuir")
+	fmt.Println("3.👞 Bottes tactiques lv1 - 5 pièces d'or, 1 Etoffe militaire, 1 Cuir")
+	fmt.Println("4. ⛑️Casque de protection lv2 - 10 pièces d'or, 2 Caméras, 2 Cuir")
 	fmt.Println("5. Gilet pare-balle lv2 - 10 pièces d'or, 4 Etoffe militaire, 2 Kevlar")
 	fmt.Println("6. Bottes tactiques lv2 - 10 pièces d'or, 2 Etoffe militaire, 2 Cuir")
 	fmt.Println("0. Quitter")
@@ -362,4 +374,24 @@ func InitGoblin() Monstre {
 		pv:            40,
 		pointsAttaque: 5,
 	}
+
+}
+func (p *Perso) GenerateInitiative() {
+	p.initiative = rand.Intn(20) + 1
+}
+
+func (m *Monstre) GenerateInitiative() {
+	m.initiative = rand.Intn(20) + 1
+}
+
+func startCombat(p Perso, m Monstre) {
+	var PremierPerso interface{}
+
+	if p.initiative > m.initiative {
+		PremierPerso = p
+	} else {
+		PremierPerso = m
+	}
+
+	fmt.Printf("%s commence le jeu !\n", PremierPerso.(Perso).nom)
 }
