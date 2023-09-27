@@ -170,7 +170,8 @@ func (p *Perso) Menu() {
 		fmt.Println("💲3. Marchand")
 		fmt.Println("🪓4. Forgeron")
 		fmt.Println("5.Play")
-		fmt.Println("◀️6. Quitter")
+		fmt.Println("6. Qui sont-ils ?")
+		fmt.Println("◀️7. Quitter")
 
 		scanner := bufio.NewScanner(os.Stdin)
 		var choix string
@@ -195,6 +196,10 @@ func (p *Perso) Menu() {
 		case "5":
 			playmenu(p)
 		case "6":
+			fmt.Println("ABBA")	
+			fmt.Println("Steven Spielberg")	
+			fmt.Println("QUEEN (Freddie Mercury)")	
+		case "7":
 			fmt.Println("Au revoir !")
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 			return
