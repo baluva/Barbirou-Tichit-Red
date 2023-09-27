@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"math/rand"
 )
 
 // tous les item disponible dans le jeu
@@ -56,12 +57,14 @@ type Perso struct {
 	Pieds         string
 	Equipement    Equipement
 	pointsAttaque int
+	initiative    int 
 }
 type Monstre struct {
 	nom           string
 	pvMAX         float64
 	pv            float64
 	pointsAttaque int
+	initiative    int 
 }
 
 // ItemType represents the type of an item.
@@ -199,6 +202,7 @@ func (p *Perso) Menu() {
 			fmt.Println("ABBA")	
 			fmt.Println("Steven Spielberg")	
 			fmt.Println("QUEEN (Freddie Mercury)")	
+			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 		case "7":
 			fmt.Println("Au revoir !")
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
@@ -362,4 +366,27 @@ func InitGoblin() Monstre {
 		pv:            40,
 		pointsAttaque: 5,
 	}
+
+
+/*
 }
+func (p *Perso) GenerateInitiative() {
+	p.initiative = rand.Intn(20) + 1
+}
+
+func (m *Monstre) GenerateInitiative() {
+	m.initiative = rand.Intn(20) + 1
+}
+
+func startCombat(p Perso, m Monstre) {
+	var PremierPerso interface{}
+
+	if p.initiative > m.initiative {
+		PremierPerso = p
+	} else {
+		PremierPerso = m
+	}
+
+	fmt.Printf("%s commence le jeu !\n", PremierPerso.(Perso).nom)
+}
+*/       
