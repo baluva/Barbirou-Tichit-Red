@@ -16,6 +16,8 @@ const (
 	PotionDePoison  ItemType = "Potion de poison"
 	redText                  = "\x1b[31m"
 	reset                    = "\x1b[0m"
+	yellowText               = "\x1b[33m"
+	resety                   = "\x1b[0m"
 
 	// Craftable
 	EtoffeMilitaire ItemType = "Etoffe militaire"
@@ -41,23 +43,25 @@ const (
 
 // Perso struct
 type Perso struct {
-	nom        string
-	classe     string
-	grade      int
-	pvMAX      float64
-	pv         float64
-	inv        map[ItemType]int
-	po         int
-	skill      string
-	Tete       string
-	Torse      string
-	Pieds      string
-	Equipement Equipement
+	nom           string
+	classe        string
+	grade         int
+	pvMAX         float64
+	pv            float64
+	inv           map[ItemType]int
+	po            int
+	skill         string
+	Tete          string
+	Torse         string
+	Pieds         string
+	Equipement    Equipement
+	pointsAttaque int
 }
-type Monster struct {
-	Name         string
-	MaxHP, HP    int
-	AttackPoints int
+type Monstre struct {
+	nom           string
+	pvMAX         float64
+	pv            float64
+	pointsAttaque int
 }
 
 // ItemType represents the type of an item.
@@ -125,7 +129,7 @@ func CharCreation() *Perso {
 	var grade int
 	for {
 		fmt.Print(redText + "Entrez votre grade : " + reset)
-		_, err := fmt.Scan(&grade)
+		_, err := fmt.Scanln(&grade)
 		if err == nil {
 			break
 		} else {
@@ -165,10 +169,11 @@ func (p *Perso) Menu() {
 		fmt.Println("🎒2. Accéder au contenu de l'inventaire")
 		fmt.Println("💲3. Marchand")
 		fmt.Println("🪓4. Forgeron")
-		fmt.Println("◀️5. Quitter")
+		fmt.Println("5.Play")
+		fmt.Println("◀️6. Quitter")
 
 		scanner := bufio.NewScanner(os.Stdin)
-		var choix string = "test"
+		var choix string
 		fmt.Print("Choisissez une option : ")
 		scanner.Scan()
 		choix = scanner.Text()
@@ -188,6 +193,8 @@ func (p *Perso) Menu() {
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 			p.DisplayForgeron()
 		case "5":
+			playmenu(p)
+		case "6":
 			fmt.Println("Au revoir !")
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 			return
@@ -262,25 +269,45 @@ func (p *Perso) DisplayMarchand() {
 
 	switch choix {
 	case 1:
-		p.BuyItem(PotionDeVie, 3)
+		if p.Checkinv() {
+			p.BuyItem(PotionDeVie, 3)
+		}
 	case 2:
-		p.BuyItem(Grenade, 6)
+		if p.Checkinv() {
+			p.BuyItem(Grenade, 6)
+		}
 	case 3:
-		p.BuyItem(Couteau, 8)
+		if p.Checkinv() {
+			p.BuyItem(Couteau, 8)
+		}
 	case 4:
-		p.BuyItem(LivreDeSortRage, 25)
+		if p.Checkinv() {
+			p.BuyItem(LivreDeSortRage, 25)
+		}
 	case 5:
-		p.BuyItem(PotionDePoison, 6)
+		if p.Checkinv() {
+			p.BuyItem(PotionDePoison, 6)
+		}
 	case 6:
-		p.BuyItem(EtoffeMilitaire, 4)
+		if p.Checkinv() {
+			p.BuyItem(EtoffeMilitaire, 4)
+		}
 	case 7:
-		p.BuyItem(Kevlar, 7)
+		if p.Checkinv() {
+			p.BuyItem(Kevlar, 7)
+		}
 	case 8:
-		p.BuyItem(Cuir, 3)
+		if p.Checkinv() {
+			p.BuyItem(Cuir, 3)
+		}
 	case 9:
-		p.BuyItem(Camera, 1)
+		if p.Checkinv() {
+			p.BuyItem(Camera, 1)
+		}
 	case 10:
-		fmt.Println("Vous ne pouvez pas acheter une augmentation d'inventaire directement.")
+		if p.Checkinv() {
+			fmt.Println("Vous ne pouvez pas acheter une augmentation d'inventaire directement.")
+		}
 	default:
 		fmt.Println("Choix invalide.")
 	}
@@ -323,12 +350,11 @@ func (p *Perso) DisplayForgeron() {
 		fmt.Println("Choix invalide.")
 	}
 }
-func InitGoblin() Monster {
-	gobelin := Monster{
-		Name:         "Gobelin d'entrainement",
-		MaxHP:        40.0,
-		HP:           40.0,
-		AttackPoints: 5,
+func InitGoblin() Monstre {
+	return Monstre{
+		nom:           "Gobelin d'entraînement",
+		pvMAX:         40,
+		pv:            40,
+		pointsAttaque: 5,
 	}
-	return gobelin
 }

@@ -3,6 +3,7 @@ package perso
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 // BuyItem permet au personnage d'acheter un objet auprès du marchand.
@@ -96,4 +97,55 @@ func EstValideClasse(classe string) bool {
 func ClearScreen() {
 	// Clear the console screen
 	fmt.Print("\033[H\033[2J")
+}
+func (p *Perso) Checkinv() bool {
+	count := 0
+	for _, quantity := range p.inv {
+		count += quantity
+		if count >= 10 {
+			return false
+			fmt.Println("ton inventaire est plein")
+		}
+	}
+	return true
+
+}
+func poisonPot(p *Perso) {
+	quantity, exists := p.inv[PotionDePoison]
+	if exists && quantity > 0 {
+		fmt.Println("Vous buvez une Potion de poison.")
+		for i := 0; i < 3; i++ {
+			fmt.Printf("Points de vie actuels : %.1f / %.1f\n", p.pv, p.pvMAX)
+			p.pv -= 10.0
+			if p.pv <= 0 {
+				p.pv = 0.0
+				break
+			}
+			time.Sleep(1 * time.Second)
+		}
+		p.inv[PotionDePoison]--
+	} else {
+		fmt.Println("Vous n'avez pas de Potion de poison dans votre inventaire.")
+	}
+}
+func (p *Perso) dead() {
+	if p.pv <= 0 {
+		fmt.Println("Vous êtes mort !")
+		p.pv = p.pvMAX * 0.5
+		fmt.Printf("Vous avez été ressuscité avec %.1f points de vie.\n", p.pv)
+	}
+}
+func (p *Perso) takePot(item ItemType) {
+	if quantity, exists := p.inv[item]; exists && quantity > 0 {
+		fmt.Printf("Vous utilisez une %s.\n", item)
+		p.inv[item]--
+		hpToAdd := 50.0
+		if p.pv+hpToAdd > p.pvMAX {
+			hpToAdd = p.pvMAX - p.pv
+		}
+		p.pv += hpToAdd
+		fmt.Printf("Points de vie actuels : %.1f / %.1f\n", p.pv, p.pvMAX)
+	} else {
+		fmt.Printf("Vous n'avez pas de %s dans votre inventaire.\n", item)
+	}
 }
