@@ -196,9 +196,9 @@ func (p *Perso) Menu() {
 		case "5":
 			playmenu(p)
 		case "6":
-			fmt.Println("ABBA")	
-			fmt.Println("Steven Spielberg")	
-			fmt.Println("QUEEN (Freddie Mercury)")	
+			fmt.Println("ABBA")
+			fmt.Println("Steven Spielberg")
+			fmt.Println("QUEEN (Freddie Mercury)")
 		case "7":
 			fmt.Println("Au revoir !")
 			fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
