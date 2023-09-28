@@ -3,7 +3,6 @@ package perso
 import (
 	"fmt"
 	"strings"
-	"time"
 )
 
 // BuyItem permet au personnage d'acheter un objet auprès du marchand.
@@ -108,24 +107,6 @@ func (p *Perso) Checkinv() bool {
 	}
 	return true
 
-}
-func poisonPot(p *Perso) {
-	quantity, exists := p.inv[PotionDePoison]
-	if exists && quantity > 0 {
-		fmt.Println("Vous buvez une Potion de poison.")
-		for i := 0; i < 3; i++ {
-			fmt.Printf("Points de vie actuels : %.1f / %.1f\n", p.pv, p.pvMAX)
-			p.pv -= 10.0
-			if p.pv <= 0 {
-				p.pv = 0.0
-				break
-			}
-			time.Sleep(1 * time.Second)
-		}
-		p.inv[PotionDePoison]--
-	} else {
-		fmt.Println("Vous n'avez pas de Potion de poison dans votre inventaire.")
-	}
 }
 func (p *Perso) dead() {
 	if p.pv <= 0 {

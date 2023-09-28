@@ -7,11 +7,18 @@ import (
 
 func playmenu(p *Perso) {
 	monstre := InitGoblin()
+	classe2 := " "
+	if p.classe == "TERRO" {
+		classe2 = "LAT"
+	} else {
+		classe2 = "TERRO"
+	}
+	p2 := initPerso2("Eldon Rudd", 100.0, classe2, 15.0, 100.0)
 	DisplayCSGOWelcomefight()
 	var choix string
 	fmt.Println(redText + "🥋1/train" + reset)
 	fmt.Println(redText + "🥋2/ fight a monster" + reset)
-	fmt.Println(redText + "🧙3/ combat magique" + reset)
+	fmt.Println(redText + "🥋3/ DUST 2 FIGHT" + reset)
 	fmt.Scanln(&choix)
 	switch choix {
 	case "1":
@@ -19,7 +26,7 @@ func playmenu(p *Perso) {
 	case "2":
 		combat(p, &monstre)
 	case "3":
-		combatmagique(p, &monstre)
+		combateroVSLAT(p, &p2)
 	}
 
 }
@@ -62,7 +69,7 @@ func trainingFight(player *Perso) {
 		fmt.Printf("Le monstre vous inflige 5 points de dégâts.\n")
 		if player.pv <= 0 {
 			fmt.Println("Vous avez été vaincu par le monstre.")
-			player.dead() 
+			player.dead()
 			return
 		}
 		tourDeCombat++
@@ -113,7 +120,7 @@ func charTurn(player *Perso, monster *Monstre) {
 	monsterAttack(player, monster)
 	if player.pv <= 0 {
 		fmt.Println("Vous avez perdu la partie.")
-		player.dead() 
+		player.dead()
 	} else if monster.pv <= 0 {
 		fmt.Println("Vous avez vaincu le monstre !")
 	}
@@ -155,6 +162,99 @@ func playerAugmentStats(player *Perso) {
 		fmt.Println("niveau max")
 	}
 }
-func combatmagique(player *Perso, monster *Monstre) {
+func combateroVSLAT(player *Perso, player2 *Perso2) {
+	ClearScreen()
+	displaymagique()
+	tourDeCombat := 1
+	for player.pv > 0 && player2.pv > 0 {
+		if player.classe == "TERO" {
+			player2.classe = "LAT"
+			player2.nom = "Eldon Rudd"
+		}
+		player2.pvMAX = 100
+		fmt.Printf(redText+"\n-- Tour de combat %d --\n"+reset, tourDeCombat)
+		fmt.Printf(redText+"Points de vie du (%s) : %.1f / %.1f\n"+reset, player.classe, player.pv, player.pvMAX)
+		fmt.Printf(redText+"Points de vie du (%s) : %.1f / %.1f\n"+reset, player2.classe, player2.pv, player2.pvMAX)
+		fmt.Println(redText + "C'est votre tour. Que voulez-vous faire ?" + reset)
+		fmt.Println(redText + "1. Attaquer" + reset)
+		fmt.Println(redText + "2. Utiliser une grenade" + reset)
+		fmt.Println(redText + "3.Utiliser une possion de vie " + reset)
+		fmt.Println(redText + "4.Utiliser un cocktail molotov " + reset)
+		fmt.Println(redText + "5. Quitter le combat" + reset)
+		var choix int
+		fmt.Print(redText + "Choisissez une option : " + reset)
+		fmt.Scanln(&choix)
+		switch choix {
+		case 1:
+			player2.pv -= 5
+			fmt.Printf("Vous infligez 5 points de dégâts à %s.\n", player2.nom)
+		case 2:
+			utiliserGrenade(player, player2)
+		case 3:
+			player.takePot(PotionDeVie)
+		case 4:
+			cocktail(player, player2)
+		case 5:
+			fmt.Println("Vous avez quitté le combat.")
+			return
+		default:
+			fmt.Println("Option invalide. Choisissez une option valide.")
+		}
+		if player2.pv <= 0 {
+			ClearScreen()
+			fmt.Println("😵😵😵😵😵😵😵😵😵")
+			fmt.Println(yellowText + "Vous avez vaincu " + player2.nom + " !" + reset)
+			playerAugmentStats(player)
+			return
+		}
+		fmt.Printf("\nC'est le tour de %s.\n", player2.nom)
+		player.pv -= 5
+		fmt.Printf("%s vous inflige 5 points de dégâts.\n", player2.nom)
+		if player.pv <= 0 {
+			fmt.Println("Vous avez été vaincu par " + player2.nom + ".")
+			player.dead()
+			return
+		}
+		tourDeCombat++
+		time.Sleep(1 * time.Second)
+	}
+}
 
+func utiliserGrenade(player *Perso, player2 *Perso2) {
+	grenade, ok := player.inv[Grenade]
+	if !ok || grenade == 0 {
+		fmt.Println("Vous n'avez pas de grenades dans votre inventaire.")
+		return
+	}
+	player.inv[Grenade]--
+	fmt.Printf("Vous avez lancé une grenade sur %s !\n", player2.nom)
+	player2.pv -= 20
+	fmt.Printf("Points de vie de %s : %.1f / %.1f\n", player2.nom, player2.pv, player2.pvMAX)
+}
+func initPerso2(nom string, pv float64, classe string, pointsAttaque float64, pvMAX float64) Perso2 {
+	return Perso2{
+		nom:           nom,
+		pv:            pv,
+		classe:        classe,
+		pointsAttaque: pointsAttaque,
+		pvMAX:         pvMAX,
+	}
+}
+func cocktail(p *Perso, player2 *Perso2) {
+	quantity, exists := p.inv[PotionDePoison]
+	if exists && quantity > 0 {
+		fmt.Printf("Vous avez lancé une MOLOTOV %s !\n", player2.nom)
+		for i := 0; i < 3; i++ {
+			fmt.Printf("Points de vie actuels : %.1f / %.1f\n", player2.pv, player2.pvMAX)
+			player2.pv -= 10.0
+			if player2.pv <= 0 {
+				player2.pv = 0.0
+				break
+			}
+			time.Sleep(1 * time.Second)
+		}
+		p.inv[PotionDePoison]--
+	} else {
+		fmt.Println("Vous n'avez pas de cocktail molotov dans votre inventaire.")
+	}
 }

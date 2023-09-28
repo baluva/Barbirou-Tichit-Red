@@ -56,7 +56,6 @@ type Perso struct {
 	Torse              string
 	Pieds              string
 	Equipement         Equipement
-	pointsAttaque      int
 	initiative         int
 	ExperienceActuelle int
 	ExperienceMax      int
@@ -70,7 +69,13 @@ type Monstre struct {
 	pointsAttaque int
 	initiative    int
 }
-
+type Perso2 struct{
+	nom string
+	pv float64
+	classe string
+	pointsAttaque float64
+	pvMAX         float64
+}
 // ItemType represents the type of an item.
 type ItemType string
 
@@ -86,27 +91,6 @@ type Equipement struct {
 	Torse EquipementInfo
 	Pieds EquipementInfo
 }
-
-// Initialisez la map des articles avec les types d'articles et leurs prix
-var itemPrices = map[ItemType]int{
-	PotionDeVie:            3,
-	Grenade:                6,
-	Couteau:                8,
-	LivreDeSortRage:        25,
-	PotionDePoison:         6,
-	EtoffeMilitaire:        4,
-	Kevlar:                 7,
-	Cuir:                   3,
-	Camera:                 1,
-	AugmentationInventaire: 30,
-}
-
-// Créer une map pour les quantités maximales d'inventaire
-var maxInventory = map[ItemType]int{
-	PotionDeVie: 10,
-	Grenade:     MaxGrenade,
-}
-
 // Initialiser un Perso
 func CharCreation() *Perso {
 	var nom string
@@ -176,7 +160,7 @@ func CharCreation() *Perso {
 
 // affiche le menu du personnage et permet au joueur de choisir les options.
 func (p *Perso) Menu() {
-	for true {
+	for {
 		time.Sleep(3 * time.Second)
 		ClearScreen()
 		fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
@@ -394,16 +378,4 @@ func (p *Perso) GenerateInitiative() {
 
 func (m *Monstre) GenerateInitiative() {
 	m.initiative = rand.Intn(20) + 1
-}
-
-func startCombat(p Perso, m Monstre) {
-	var PremierPerso interface{}
-
-	if p.initiative > m.initiative {
-		PremierPerso = p
-	} else {
-		PremierPerso = m
-	}
-
-	fmt.Printf("%s commence le jeu !\n", PremierPerso.(Perso).nom)
 }
