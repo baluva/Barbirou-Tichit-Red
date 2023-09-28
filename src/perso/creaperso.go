@@ -116,18 +116,6 @@ func CharCreation() *Perso {
 			fmt.Println("⚠️Classe invalide. Veuillez choisir LAT ou TERRO.")
 		}
 	}
-
-	var grade int
-	for {
-		fmt.Print(redText + "Entrez votre grade : " + reset)
-		_, err := fmt.Scanln(&grade)
-		if err == nil {
-			break
-		} else {
-			fmt.Println("⚠️Grade invalide. Veuillez entrer un nombre entier.")
-		}
-	}
-
 	pvMAX := 100.0
 	switch classe {
 	case "LAT":

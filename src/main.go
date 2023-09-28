@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"red/perso"
 	"time"
-
 	"github.com/fatih/color"
 	"github.com/mbndr/figlet4go"
 )
@@ -12,7 +11,7 @@ import (
 func main() {
 	perso.ClearScreen()
 	displayhist()
-	time.Sleep(10 * time.Second)
+	time.Sleep(5 * time.Second)
 	perso.ClearScreen()
 	DisplayCSGOWelcome()
 	personnage := perso.CharCreation()
@@ -39,15 +38,15 @@ func displayhist() {
 	green := color.New(color.FgGreen).SprintFunc()
 
 	fmt.Printf("%s\n", green("Bienvenue dans l'univers de"))
-	time.Sleep(0 * time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Printf("%s\n", yellow(gameTitle))
-	time.Sleep(0 * time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Printf("%s\n", yellow(developers))
-	time.Sleep(0 * time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Printf("%s\n", blue(teams))
-	time.Sleep(0 * time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Printf("%s\n", gameplay)
-	time.Sleep(0 * time.Second)//CHANGE
+	time.Sleep(1 * time.Second)//CHANGE
 }
 func Displaysuc() {
 	perso.ClearScreen()
