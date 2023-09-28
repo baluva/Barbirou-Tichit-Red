@@ -69,14 +69,14 @@ type Monstre struct {
 	pointsAttaque int
 	initiative    int
 }
-type Perso2 struct{
-	nom string
-	pv float64
-	classe string
+type Perso2 struct {
+	nom           string
+	pv            float64
+	classe        string
 	pointsAttaque float64
 	pvMAX         float64
 }
-// ItemType represents the type of an item.
+
 type ItemType string
 
 // Equipement Info représente des informations sur un élément d'équipement.
@@ -91,6 +91,7 @@ type Equipement struct {
 	Torse EquipementInfo
 	Pieds EquipementInfo
 }
+
 // Initialiser un Perso
 func CharCreation() *Perso {
 	var nom string
@@ -157,7 +158,7 @@ func (p *Perso) Menu() {
 		fmt.Println("🎒2. Accéder au contenu de l'inventaire")
 		fmt.Println("💲3. Marchand")
 		fmt.Println("🪓4. Forgeron")
-		fmt.Println("5.Play")
+		fmt.Println("5▶️.Play")
 		fmt.Println("6. Qui sont-ils ?")
 		fmt.Println("◀️7. Quitter")
 		fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
@@ -235,7 +236,7 @@ func (p *Perso) DisplayInfo() {
 	fmt.Println("Classe :", p.classe)
 	fmt.Println("Points de vie actuels :", p.pv)
 	fmt.Println("Points de vie maximum :", p.pvMAX)
-	fmt.Println("Niveau",p.Niveau )
+	fmt.Println("Niveau", p.Niveau)
 	fmt.Println("Inventaire :", p.inv)
 	fmt.Println("Pièces d'or :", p.po)
 	fmt.Println("Compétence :", p.skill)
