@@ -45,20 +45,23 @@ const (
 
 // Perso struct
 type Perso struct {
-	nom           string
-	classe        string
-	grade         int
-	pvMAX         float64
-	pv            float64
-	inv           map[ItemType]int
-	po            int
-	skill         string
-	Tete          string
-	Torse         string
-	Pieds         string
-	Equipement    Equipement
-	pointsAttaque int
-	initiative    int
+	nom                string
+	classe             string
+	pvMAX              float64
+	pv                 float64
+	inv                map[ItemType]int
+	po                 int
+	skill              string
+	Tete               string
+	Torse              string
+	Pieds              string
+	Equipement         Equipement
+	pointsAttaque      int
+	initiative         int
+	ExperienceActuelle int
+	ExperienceMax      int
+	Niveau             int
+	energie            int
 }
 type Monstre struct {
 	nom           string
@@ -152,21 +155,29 @@ func CharCreation() *Perso {
 	inv := make(map[ItemType]int)
 	po := 100
 	var skill string
+	ExperienceActuelle := 0
+	ExperienceMax := 100
+	Niveau := 0
+	energie := 100
 	return &Perso{
-		nom:    nom,
-		classe: classe,
-		grade:  grade,
-		pvMAX:  pvMAX,
-		pv:     pv,
-		inv:    inv,
-		po:     po,
-		skill:  skill,
+		nom:                nom,
+		classe:             classe,
+		pvMAX:              pvMAX,
+		pv:                 pv,
+		inv:                inv,
+		po:                 po,
+		skill:              skill,
+		Niveau:             Niveau,
+		ExperienceMax:      ExperienceMax,
+		ExperienceActuelle: ExperienceActuelle,
+		energie:            energie,
 	}
 }
 
 // affiche le menu du personnage et permet au joueur de choisir les options.
 func (p *Perso) Menu() {
 	for true {
+		time.Sleep(3 * time.Second)
 		ClearScreen()
 		fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 		fmt.Println("-----------------MENU-----------------------:")
@@ -177,6 +188,7 @@ func (p *Perso) Menu() {
 		fmt.Println("5.Play")
 		fmt.Println("6. Qui sont-ils ?")
 		fmt.Println("◀️7. Quitter")
+		fmt.Println(".-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~.-~-.-~-.-~-")
 
 		scanner := bufio.NewScanner(os.Stdin)
 		var choix string
@@ -249,9 +261,9 @@ func (p *Perso) DisplayInfo() {
 	fmt.Println("Informations sur le personnage:")
 	fmt.Println("Nom :", p.nom)
 	fmt.Println("Classe :", p.classe)
-	fmt.Println("Grade :", p.grade)
 	fmt.Println("Points de vie actuels :", p.pv)
 	fmt.Println("Points de vie maximum :", p.pvMAX)
+	fmt.Println("Niveau",p.Niveau )
 	fmt.Println("Inventaire :", p.inv)
 	fmt.Println("Pièces d'or :", p.po)
 	fmt.Println("Compétence :", p.skill)

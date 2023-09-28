@@ -39,15 +39,15 @@ func displayhist() {
 	green := color.New(color.FgGreen).SprintFunc()
 
 	fmt.Printf("%s\n", green("Bienvenue dans l'univers de"))
-	time.Sleep(2 * time.Second)
+	time.Sleep(0 * time.Second)
 	fmt.Printf("%s\n", yellow(gameTitle))
-	time.Sleep(2 * time.Second)
+	time.Sleep(0 * time.Second)
 	fmt.Printf("%s\n", yellow(developers))
-	time.Sleep(2 * time.Second)
+	time.Sleep(0 * time.Second)
 	fmt.Printf("%s\n", blue(teams))
-	time.Sleep(2 * time.Second)
+	time.Sleep(0 * time.Second)
 	fmt.Printf("%s\n", gameplay)
-	time.Sleep(2 * time.Second)
+	time.Sleep(0 * time.Second)//CHANGE
 }
 func Displaysuc() {
 	perso.ClearScreen()

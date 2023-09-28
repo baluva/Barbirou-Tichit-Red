@@ -6,18 +6,20 @@ import (
 )
 
 func playmenu(p *Perso) {
-	ClearScreen()
+	monstre := InitGoblin()
 	DisplayCSGOWelcomefight()
 	var choix string
 	fmt.Println(redText + "🥋1/train" + reset)
 	fmt.Println(redText + "🥋2/ fight a monster" + reset)
+	fmt.Println(redText + "🧙3/ combat magique" + reset)
 	fmt.Scanln(&choix)
 	switch choix {
 	case "1":
 		trainingFight(p)
 	case "2":
-		//charTurn(*Perso, *Monstre)
-
+		combat(p, &monstre)
+	case "3":
+		combatmagique(p, &monstre)
 	}
 
 }
@@ -52,6 +54,7 @@ func trainingFight(player *Perso) {
 			ClearScreen()
 			fmt.Println("😵😵😵😵😵😵😵😵😵")
 			fmt.Println(yellowText + "Vous avez vaincu le monstre !" + resety)
+			playerAugmentStats(player)
 			return
 		}
 		fmt.Println("\nC'est le tour du monstre.")
@@ -59,33 +62,11 @@ func trainingFight(player *Perso) {
 		fmt.Printf("Le monstre vous inflige 5 points de dégâts.\n")
 		if player.pv <= 0 {
 			fmt.Println("Vous avez été vaincu par le monstre.")
+			player.dead() 
 			return
 		}
 		tourDeCombat++
 		time.Sleep(1 * time.Second)
-	}
-}
-func goblinPattern(player *Perso) {
-	goblin := InitGoblin()
-
-	for tour := 1; player.pv > 0; tour++ {
-		var DegatsInfliges int
-
-		if tour%3 == 0 {
-			DegatsInfliges = goblin.pointsAttaque * 2
-		} else {
-			DegatsInfliges = goblin.pointsAttaque
-			player.pv -= float64(DegatsInfliges)
-			fmt.Printf("%s inflige à %s %d de dégâts.\n", goblin.nom, player.nom, DegatsInfliges)
-			fmt.Printf("Points de vie actuels de %s : %.1f/%.1f\n", player.nom, player.pv, player.pvMAX)
-
-			if player.pv <= 0 {
-				ClearScreen()
-				fmt.Println("😵😵😵😵😵😵😵")
-				fmt.Printf(yellowText+"%s a été vaincu par %s !\n"+resety, player.nom, goblin.nom)
-				break
-			}
-		}
 	}
 }
 func monsterAttack(player *Perso, monster *Monstre) {
@@ -132,7 +113,48 @@ func charTurn(player *Perso, monster *Monstre) {
 	monsterAttack(player, monster)
 	if player.pv <= 0 {
 		fmt.Println("Vous avez perdu la partie.")
+		player.dead() 
 	} else if monster.pv <= 0 {
 		fmt.Println("Vous avez vaincu le monstre !")
 	}
+}
+func combat(player *Perso, monster *Monstre) {
+	fmt.Println("Vous entrez dans un combat d'entraînement contre un Gobelin d'entraînement !")
+
+	for player.pv > 0 && monster.pv > 0 {
+		fmt.Println("\nNouveau tour de jeu d'entraînement :")
+		charTurn(player, monster)
+		if player.pv <= 0 {
+			fmt.Println("Vous avez perdu la partie.")
+			break
+		} else if monster.pv <= 0 {
+			fmt.Println("Vous avez vaincu le monstre !")
+			playerAugmentStats(player)
+			break
+		}
+		var continueChoice string
+		fmt.Print("Voulez-vous continuer l'entraînement ? (O/N) : ")
+		fmt.Scanln(&continueChoice)
+		if continueChoice != "O" && continueChoice != "o" {
+			fmt.Println("Vous quittez l'entraînement.")
+			break
+		}
+	}
+}
+func playerAugmentStats(player *Perso) {
+	switch player.Niveau {
+	case 2:
+		player.pvMAX += 10
+	case 3:
+		player.pvMAX += 15
+	case 4:
+		player.pvMAX += 20
+	case 5:
+		player.pvMAX += 30
+	case 6:
+		fmt.Println("niveau max")
+	}
+}
+func combatmagique(player *Perso, monster *Monstre) {
+
 }

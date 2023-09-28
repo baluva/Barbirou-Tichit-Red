@@ -104,7 +104,6 @@ func (p *Perso) Checkinv() bool {
 		count += quantity
 		if count >= 10 {
 			return false
-			fmt.Println("ton inventaire est plein")
 		}
 	}
 	return true
